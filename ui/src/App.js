@@ -3,6 +3,8 @@ import { createDatabase } from "./database";
 import { useEffect } from "react";
 import MissingPersonForm from "./components/MissingPersonForm";
 
+const Web3 = window.Web3;
+
 function App() {
   useEffect(() => {
     console.log(createDatabase());
@@ -54,28 +56,42 @@ function App() {
   ];
 
   const [appliedFilters, setAppliedFilters] = useState([]);
+  const [currentWalletAddress, setCurrentWalletAddress] = useState("");
 
-  function connectWallet() {
-    console.log("conect wallet");
+  async function connectWallet() {
+    if (window.ethereum) {
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      window.web3 = new Web3(window.ethereum);
+      const account = window.web3.eth.accounts;
+      const walletAddress = account.givenProvider.selectedAddress;
+
+      setCurrentWalletAddress(walletAddress);
+    } else {
+      console.log("No wallet");
+    }
   }
 
   return (
     <div>
       <header className="flex items-center bg-purple-600 text-white p-4">
         <div className="w-1/4 flex items-center">
-          <img src="./logo.png" />
           <h1 className="text-xl">EthernalHope</h1>
         </div>
         <div className="w-2/4 flex items-center">
           <input
-            className="w-full p-2 placeholder:text-white rounded bg-transparent border-2 border-white hover:shadow-xl focus:outline-none focus:shadow-xl"
+            className="w-3/4 p-2 placeholder:text-white rounded bg-transparent border-2 border-white hover:shadow-xl focus:outline-none focus:shadow-xl"
             placeholder="Search"
           />
         </div>
         <div className="w-1/4 flex items-center justify-end">
-          <button className="p-2 border-2 border-white rounded hover:shadow-xl">
-            Connect wallet
-          </button>
+          {currentWalletAddress || (
+            <button
+              className="p-2 border-2 border-white rounded hover:shadow-xl"
+              onClick={connectWallet}
+            >
+              Connect wallet
+            </button>
+          )}
         </div>
       </header>
       <main>
