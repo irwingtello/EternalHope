@@ -55,11 +55,11 @@ function App() {
       <header className="flex items-center bg-purple-600 text-white p-4">
         <div className="w-1/4 flex items-center">
           <img src="./logo.png" />
-          <h1 className="text-xl">EternalHope</h1>
+          <h1 className="text-xl">EthernalHope</h1>
         </div>
         <div className="w-2/4 flex items-center">
           <input
-            className="focus:outline-none w-full p-2 placeholder:text-white rounded bg-transparent border-2 border-white"
+            className="w-full p-2 placeholder:text-white rounded bg-transparent border-2 border-white hover:shadow-xl focus:outline-none focus:shadow-xl"
             placeholder="Search"
           />
         </div>
@@ -80,7 +80,7 @@ function App() {
         <section className="p-4">
           <div>
             <h2 className="text-xl font-semibold mb-4">
-              Help us find this people
+              Help us find these people
             </h2>
           </div>
           <div className="flex flex-wrap items-center">
