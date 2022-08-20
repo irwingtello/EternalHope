@@ -1,15 +1,24 @@
 import { useState } from "react";
+import { createDatabase } from "./database";
+import { useEffect } from "react";
+import MissingPersonForm from "./components/MissingPersonForm";
 
 function App() {
+  useEffect(() => {
+    console.log(createDatabase());
+  }, []);
+  const [showForm, setShowForm] = useState(false);
   const filters = [
-    "gender",
-    "age",
+    "name",
     "race",
-    "hair",
+    "hairColor",
+    "eyesColor",
+    "ageNow",
     "height",
-    "weight",
-    "last-seen",
-    "lost-at",
+    "missingFrom",
+    "missingSince",
+    "uri",
+    "familyAddress",
   ];
   const people = [
     {
@@ -72,10 +81,22 @@ function App() {
       <main>
         <section className="p-4">
           <div>
-            <button className="rounded border-2 border-violet-500 text-violet-500 p-2 hover:bg-violet-500 hover:text-white hover:border-gray-500">
+            <button
+              onClick={() => setShowForm(true)}
+              className="rounded border-2 border-violet-500 text-violet-500 p-2 hover:bg-violet-500 hover:text-white hover:border-gray-500"
+            >
               + Report a missing person
             </button>
+            {showForm && (
+              <button
+                className="text-violet-500 ml-4"
+                onClick={() => setShowForm(false)}
+              >
+                Close Form
+              </button>
+            )}
           </div>
+          {showForm && <MissingPersonForm />}
         </section>
         <section className="p-4">
           <div>
@@ -85,10 +106,10 @@ function App() {
           </div>
           <div className="flex flex-wrap items-center">
             {filters.map((filter, filterIndex) => (
-              <div className="w-1/6 p-2">
+              <div className="w-1/6 p-2" key={filterIndex}>
                 <input
                   className="border border-gray-500 rounded p-2 focus:outline-violet-500"
-                  placeholder={`filter${filterIndex}`}
+                  placeholder={filter}
                 ></input>
               </div>
             ))}
