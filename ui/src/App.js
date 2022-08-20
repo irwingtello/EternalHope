@@ -36,6 +36,12 @@ function App() {
     {
       url: "https://imagenes.elpais.com/resizer/o-OwmbBDYpFmXsEKLTzsHEa2g8A=/1960x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/T2RDY2BILMYULRL2CFG7VCH2AA.jpg",
     },
+    {
+      url: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Vitalik_Buterin_TechCrunch_London_2015_%28cropped%29.jpg",
+    },
+    {
+      url: "https://imagenes.elpais.com/resizer/o-OwmbBDYpFmXsEKLTzsHEa2g8A=/1960x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/T2RDY2BILMYULRL2CFG7VCH2AA.jpg",
+    },
   ];
 
   const [appliedFilters, setAppliedFilters] = useState([]);
