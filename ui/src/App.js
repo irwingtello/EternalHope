@@ -2,58 +2,47 @@ import { useState } from "react";
 import { createDatabase } from "./database";
 import { useEffect } from "react";
 import MissingPersonForm from "./components/MissingPersonForm";
+import axios from "axios";
+import keyBy from "lodash.keyby";
 
 const Web3 = window.Web3;
 
 function App() {
   useEffect(() => {
+    const url = "https://deep-index.moralis.io/api/v2/nft";
+    const address = "0x9D151D811Bdb2fD6ec73c8c7614cf71E68BC87B9";
+    axios
+      .get(`${url}/${address}`, {
+        headers: {
+          "X-Api-Key":
+            "cqNMpvJJVMDNjgEwsGYKF9Pwg48cC7JMORTKETLySmo33JA6Sm2BY8FoxD8mP3Y9",
+        },
+        params: {
+          chain: "polygon",
+        },
+      })
+      .then((res) => {
+        setPeople(formatData(res.data.result));
+        console.log(people);
+      });
     console.log(createDatabase());
   }, []);
+
   const [showForm, setShowForm] = useState(false);
   const filters = [
-    "name",
-    "race",
-    "hairColor",
-    "eyesColor",
-    "ageNow",
-    "height",
-    "missingFrom",
-    "missingSince",
-    "uri",
-    "familyAddress",
+    // "name",
+    // "race",
+    // "hairColor",
+    // "eyesColor",
+    // "ageNow",
+    // "height",
+    // "missingFrom",
+    // "missingSince",
+    // "uri",
+    // "familyAddress",
   ];
-  const people = [
-    {
-      url: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Vitalik_Buterin_TechCrunch_London_2015_%28cropped%29.jpg",
-    },
-    {
-      url: "https://imagenes.elpais.com/resizer/o-OwmbBDYpFmXsEKLTzsHEa2g8A=/1960x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/T2RDY2BILMYULRL2CFG7VCH2AA.jpg",
-    },
-    {
-      url: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Vitalik_Buterin_TechCrunch_London_2015_%28cropped%29.jpg",
-    },
-    {
-      url: "https://imagenes.elpais.com/resizer/o-OwmbBDYpFmXsEKLTzsHEa2g8A=/1960x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/T2RDY2BILMYULRL2CFG7VCH2AA.jpg",
-    },
-    {
-      url: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Vitalik_Buterin_TechCrunch_London_2015_%28cropped%29.jpg",
-    },
-    {
-      url: "https://imagenes.elpais.com/resizer/o-OwmbBDYpFmXsEKLTzsHEa2g8A=/1960x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/T2RDY2BILMYULRL2CFG7VCH2AA.jpg",
-    },
-    {
-      url: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Vitalik_Buterin_TechCrunch_London_2015_%28cropped%29.jpg",
-    },
-    {
-      url: "https://imagenes.elpais.com/resizer/o-OwmbBDYpFmXsEKLTzsHEa2g8A=/1960x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/T2RDY2BILMYULRL2CFG7VCH2AA.jpg",
-    },
-    {
-      url: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Vitalik_Buterin_TechCrunch_London_2015_%28cropped%29.jpg",
-    },
-    {
-      url: "https://imagenes.elpais.com/resizer/o-OwmbBDYpFmXsEKLTzsHEa2g8A=/1960x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/T2RDY2BILMYULRL2CFG7VCH2AA.jpg",
-    },
-  ];
+
+  const [people, setPeople] = useState([]);
 
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [currentWalletAddress, setCurrentWalletAddress] = useState("");
@@ -69,6 +58,19 @@ function App() {
     } else {
       console.log("No wallet");
     }
+  }
+
+  function formatData(arr) {
+    return arr.map((item) => {
+      const metadata = JSON.parse(item.metadata);
+      metadata.attributes = keyBy(metadata.attributes, "trait_type");
+      console.log(metadata);
+      return {
+        ...item,
+        metadata,
+        image: metadata.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+      };
+    });
   }
 
   return (
@@ -130,13 +132,15 @@ function App() {
               </div>
             ))}
             <div className="w-1/6 p-2">
-              <button
-                type="submit"
-                className="text-violet-500 border-2 border-violet-500 p-2 rounded hover:bg-violet-500 hover:text-white hover:border-gray-500"
-                onClick={setAppliedFilters}
-              >
-                Apply
-              </button>
+              {appliedFilters.length > 0 && (
+                <button
+                  type="submit"
+                  className="text-violet-500 border-2 border-violet-500 p-2 rounded hover:bg-violet-500 hover:text-white hover:border-gray-500"
+                  onClick={setAppliedFilters}
+                >
+                  Apply
+                </button>
+              )}
             </div>
           </div>
           <div className="flex flex-wrap">
@@ -146,17 +150,40 @@ function App() {
                   <div>
                     <img
                       className="min-w-full h-256 rounded"
-                      src={person.url}
+                      src={person.image}
                     />
                   </div>
-                  <h3 className="my-1 font-bold">Person Name - 18 years</h3>
+                  <h3 className="my-1 font-bold">
+                    {person.metadata.name}
+                    <br />
+                    {person.metadata.attributes.ageNow.value} years
+                  </h3>
                   <div>
                     <ul>
-                      <li>Last seen: 02-02-2022</li>
-                      <li>Height: 1.80m</li>
-                      <li>Race: Caucasian</li>
-                      <li>Hair color: Black</li>
-                      <li>Nationality: Russian</li>
+                      <li>
+                        Last seen:{" "}
+                        {person.metadata.attributes.missingSince.value} at{" "}
+                        {person.metadata.attributes.missingFrom.value}
+                      </li>
+                      <li>Race: {person.metadata.attributes.race.value}</li>
+                      <li>Height: {person.metadata.attributes.height.value}</li>
+                      <li>
+                        Hair color: {person.metadata.attributes.hairColor.value}
+                      </li>
+                      <li>
+                        Eyes color: {person.metadata.attributes.eyesColor.value}
+                      </li>
+                      <li>
+                        <p>Family Address:</p>
+                        <p className="d-block truncate text-violet-500">
+                          <a
+                            target="_blank"
+                            href={`https://polygonscan.com/address/${person.metadata.attributes.familyAddress.value}`}
+                          >
+                            {person.metadata.attributes.familyAddress.value}
+                          </a>
+                        </p>
+                      </li>
                     </ul>
                   </div>
                 </div>
