@@ -1,0 +1,11 @@
+ipfs://QmZoCiPu2Qbx8BEhGdMv4iXFsvvc642iVDB5mz8xxFuBzp?filename=FirstPrimo.json
+https://bafybeiddg64xmfant3g2vymvashkxjuphyt3byrl37zxayqsrfiujdyrxa.ipfs.dweb.link/?filename=Primitivo%2520Viera.jpg
+
+ipfs://QmT17ysnMHztwgvpN9bnPsvyrEpCXhKhdBTV3SAi4m2RRw?filename=PrimoClue.json
+https://bafybeicfjgt2l7zh7fph7shh4qibv6ijh6cradran7i6qj6hekar54egry.ipfs.dweb.link/?filename=PrimoClue.json
+
+ipfs://QmU8SNqXqZZib3Q3M3XSsoMhRfqAbZjEjrdCfk1e6cEtf1?filename=SecondVitalik.json
+https://bafybeibzjlyhfxsbdaxmm4c3s4vobpf5k2z26om2xzjvhyjg5yj3h7todm.ipfs.dweb.link/Vitalik%20Butterin.jpg
+
+ipfs://QmNUhy1xmjvcC7TA4Rx4ZF6TcQWSfWEZBcumuDec2q9KVd?filename=VitalikClue.json
+https://bafybeigxz6miewahscoh7bxy5l7a6p4d47w2xqsyjpvrs6ky6qtum2iviq.ipfs.dweb.link/?filename=EthernalHope2.jpg
